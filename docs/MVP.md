@@ -256,11 +256,11 @@ var task = await _dbContext.Tasks
 Every access to `Project` or `TaskItem` **must** go through a check that the authenticated user is a member of the corresponding workspace. This check should become an `IAuthorizationHandler` or a reusable MediatR pipeline behavior — not be manually repeated in every handler.
 
 ### Tasks
-- [ ] Create the domain entities in `TaskFlow.Domain` (User, Workspace, WorkspaceMember, Project, TaskItem)
-- [ ] Document the business rules in `/docs/domain-rules.md`
-- [ ] Mentally validate edge cases (e.g., "can I remove the last admin?", "can I assign a task to someone outside the workspace?")
-- [ ] Design the `EntityTypeConfiguration` (EF Core Fluent API) for each entity, including unique indexes
-- [ ] Review and approve the model before moving to Phase 2
+- [x] Create the domain entities in `TaskFlow.Domain` (User, Workspace, WorkspaceMember, Project, TaskItem)
+- [x] Document the business rules in `/docs/DOMAIN_RULES.md`
+- [x] Mentally validate edge cases (e.g., "can I remove the last admin?", "can I assign a task to someone outside the workspace?")
+- [x] Design the `EntityTypeConfiguration` (EF Core Fluent API) for each entity, including unique indexes
+- [x] Review and approve the model before moving to Phase 2
 
 ### Completion criteria
 An approved domain document exists, with the entity model and business rules written down, before any endpoint is implemented.
