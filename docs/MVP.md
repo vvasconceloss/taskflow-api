@@ -125,7 +125,7 @@ volumes:
 - [x] Confirm the API starts locally (`dotnet run`) and responds at `/health`
 - [x] Create `.gitignore` (.NET template + `.env`)
 - [x] Create initial `README.md` (placeholder, expanded in Phase 14)
-- [ ] First commit
+- [x] First commit
 
 ### Completion criteria
 The solution builds, Postgres starts via Docker, and `GET /health` responds 200 locally.
