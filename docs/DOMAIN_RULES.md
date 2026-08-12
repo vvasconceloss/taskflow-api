@@ -49,6 +49,12 @@ TaskItem (N) ──── (0..1) User   # optional assignee; must be a member of
    only see resources through their `WorkspaceMember` records. All access is resolved via
    membership — see [Security Rules](#security-rules).
 6. **Email format** — Must conform to a valid email structure (validated at the API layer).
+7. **User deletion (DB semantics)** — The MVP exposes no user-deletion endpoint, but the database
+   semantics are fixed: deleting a user is **blocked** while they have created workspaces
+   (`Restrict`), hold any membership (`Restrict`), or are assigned to a task (`NO ACTION`).
+   User deletion is an application-orchestrated operation (future): the app must resolve created
+   workspaces, run the last-`Admin` check on every membership before removing it, and clear task
+   assignments — the database acts as the safety net, never as a silent destructor.
 
 ---
 
@@ -58,7 +64,7 @@ TaskItem (N) ──── (0..1) User   # optional assignee; must be a member of
 |------------------|----------|--------------------------------------|
 | id               | Guid     | Primary key                          |
 | name             | string   | 1–100 characters, required           |
-| createdByUserId  | Guid     | FK to the creating User, required    |
+| createdByUserId  | Guid     | FK to the creating User, required (restrict delete) |
 | createdAt        | DateTime | Auto-set at creation                 |
 
 ### Rules
@@ -97,6 +103,8 @@ TaskItem (N) ──── (0..1) User   # optional assignee; must be a member of
 4. **Role transitions** — A role can only be changed by an `Admin` of the same workspace. Demoting
    or removing a user who is the last `Admin` is rejected.
 5. **Cascade on workspace delete** — Memberships are removed when the workspace is deleted.
+6. **Membership FK behavior** — The `userId` FK is `Restrict`: deleting a user is blocked while they
+   hold memberships (see User rule 7). The `workspaceId` FK cascades on workspace deletion (rule 5).
 
 ---
 
@@ -148,7 +156,9 @@ TaskItem (N) ──── (0..1) User   # optional assignee; must be a member of
 2. **Membership isolation** — Only members of the project's workspace can see, create, or edit its
    tasks (see Security Rules).
 3. **Assignee integrity** — `assigneeUserId`, when set, **must** be a member of the project's
-   workspace. Validated at the application level — not just in the database.
+   workspace. Validated at the application level — not just in the database. Deleting a user does
+   **not** cascade to tasks: the assignee reference is cleared client-side (`ClientSetNull`); at
+   the database the FK is `NO ACTION`, which blocks deleting a user still assigned to a task.
 4. **CompletedAt state machine** — Changing `status` to `Done` automatically fills `completedAt`
    (server-side, never accepted from the client). Moving away from `Done` resets it to `null`.
 5. **Status / priority** — Only the enum values are accepted (`Todo | InProgress | Done` and
@@ -218,3 +228,6 @@ These scenarios are validated by the automated test suites and the manual QA (Ph
 10. **Email uniqueness** — Registering with an existing email returns an error.
 11. **Optional description** — Creating a project or task with only a name succeeds.
 12. **Unauthenticated access** — Calling a protected endpoint without a JWT returns 401.
+13. **User deletion blocked (DB semantics)** — Deleting a user who created workspaces, holds
+    memberships, or is assigned to a task is blocked at the database level; the future app
+    orchestration must resolve these before deleting the account.
