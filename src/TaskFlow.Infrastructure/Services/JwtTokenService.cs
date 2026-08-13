@@ -1,11 +1,11 @@
-using TaskFlow.Domain.Entities;
-using TaskFlow.Application.Common.Options;
-using TaskFlow.Application.Common.Interfaces;
-using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using TaskFlow.Application.Common.Interfaces;
+using TaskFlow.Application.Common.Options;
+using TaskFlow.Domain.Entities;
 
 namespace TaskFlow.Infrastructure.Services
 {
@@ -13,7 +13,7 @@ namespace TaskFlow.Infrastructure.Services
     {
         private readonly JwtOptions _options = options.Value;
 
-        public string CreateToken(User user)
+        public TokenResult CreateToken(User user)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -25,14 +25,16 @@ namespace TaskFlow.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Name, user.Name ?? string.Empty)
             };
 
+            var expiresAt = DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes);
+
             var token = new JwtSecurityToken(
                 issuer: _options.Issuer,
                 audience: _options.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes),
+                expires: expiresAt,
                 signingCredentials: signingCredentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new TokenResult(new JwtSecurityTokenHandler().WriteToken(token), expiresAt);
         }
     }
 }
