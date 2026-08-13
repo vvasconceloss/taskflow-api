@@ -20,6 +20,7 @@ namespace TaskFlow.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddSingleton<ITokenService, JwtTokenService>();
 
