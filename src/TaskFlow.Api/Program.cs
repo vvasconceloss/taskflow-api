@@ -17,8 +17,8 @@ using TaskFlow.Infrastructure.Persistence;
 
 // Disable file-system config reload: the default appsettings.json watcher (inotify) exceeds the
 // limit in constrained containers (e.g. Render free tier). Configuration comes from environment
-// variables in production.
-Environment.SetEnvironmentVariable("hostBuilder__reloadConfigOnChange", "false");
+// variables in production. The DOTNET_ prefix is required for the host builder to pick it up.
+Environment.SetEnvironmentVariable("DOTNET_hostBuilder__reloadConfigOnChange", "false");
 
 var builder = WebApplication.CreateBuilder(args);
 
