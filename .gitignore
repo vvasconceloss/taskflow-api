@@ -484,3 +484,4 @@ $RECYCLE.BIN/
 
 # Application logs
 logs/
+TestResults/
