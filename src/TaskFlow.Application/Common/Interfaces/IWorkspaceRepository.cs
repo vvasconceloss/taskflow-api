@@ -1,10 +1,17 @@
+using TaskFlow.Application.Common.Models;
 using TaskFlow.Domain.Entities;
 
 namespace TaskFlow.Application.Common.Interfaces
 {
     public interface IWorkspaceRepository
     {
-        Task<List<Workspace>> GetWorkspacesForUserAsync(Guid userId, CancellationToken cancellationToken);
+        Task<PagedResult<Workspace>> GetWorkspacesForUserAsync(
+            Guid userId,
+            string? sortBy,
+            bool sortDescending,
+            int page,
+            int pageSize,
+            CancellationToken cancellationToken);
         Task<Workspace?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<WorkspaceMember?> GetMembershipAsync(Guid workspaceId, Guid userId, CancellationToken cancellationToken);
         Task<bool> IsMemberAsync(Guid workspaceId, Guid userId, CancellationToken cancellationToken);
