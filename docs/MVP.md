@@ -739,13 +739,13 @@ jobs:
 ```
 
 ### Tasks
-- [ ] Create `.github/workflows/ci.yml`
-- [ ] Configure trigger on pull requests and push to `main`
-- [ ] Configure a Postgres service in the workflow for integration tests
-- [ ] Confirm `dotnet test` runs unit **and** integration tests in CI
-- [ ] Confirm the pipeline correctly fails when a test breaks (test this on purpose)
-- [ ] Configure branch protection on `main` requiring a green CI before merge
-- [ ] Validate the pipeline with a test PR
+- [x] Create `.github/workflows/ci.yml`
+- [x] Configure trigger on pull requests and push to `main`
+- [x] Configure a Postgres service in the workflow for integration tests
+- [x] Confirm `dotnet test` runs unit **and** integration tests in CI
+- [x] Confirm the pipeline correctly fails when a test breaks (test this on purpose)
+- [x] Configure branch protection on `main` requiring a green CI before merge
+- [x] Validate the pipeline with a test PR
 
 ### Completion criteria
 No code reaches `main` without passing through automated build, tests, and format check.
