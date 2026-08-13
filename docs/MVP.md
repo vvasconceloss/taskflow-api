@@ -622,17 +622,17 @@ public class TaskFlowTests : IClassFixture<TaskFlowApiFactory>
 ```
 
 ### Tasks
-- [ ] Configure Testcontainers in the integration test project
-- [ ] Create a custom `WebApplicationFactory` (`TaskFlowApiFactory`) pointing to the container's Postgres
-- [ ] Write unit tests for the critical business rules:
-  - [ ] Don't remove the last Admin of a workspace
-  - [ ] `CompletedAt` is correctly filled/cleared when status changes
-  - [ ] Assigning a task to a non-member fails
-  - [ ] Deleting a project with tasks fails
-- [ ] Write at least 3 end-to-end integration tests covering complete flows
-- [ ] Write user/workspace isolation tests (already partly covered in earlier phases — consolidate here)
-- [ ] Run the full test suite locally and confirm 100% pass
-- [ ] (Optional, if time allows) Configure a coverage report (Coverlet)
+- [x] Configure Testcontainers in the integration test project
+- [x] Create a custom `WebApplicationFactory` (`TaskFlowApiFactory`) pointing to the container's Postgres
+- [x] Write unit tests for the critical business rules:
+  - [x] Don't remove the last Admin of a workspace
+  - [x] `CompletedAt` is correctly filled/cleared when status changes
+  - [x] Assigning a task to a non-member fails
+  - [x] Deleting a project with tasks fails
+- [x] Write at least 3 end-to-end integration tests covering complete flows
+- [x] Write user/workspace isolation tests (already partly covered in earlier phases — consolidate here)
+- [x] Run the full test suite locally and confirm 100% pass
+- [x] (Optional, if time allows) Configure a coverage report (Coverlet)
 
 ### Completion criteria
 The test suite runs locally with success and covers the domain's critical business rules, not just the "happy paths."
@@ -908,9 +908,9 @@ M3  — Workspaces and Members            [x]
 M4  — Projects                          [x]
 M5  — Tasks                             [x]
 M6  — Advanced Listing                  [x]
-M7  — Validation and Errors             [ ]
-M8  — Logging                           [ ]
-M9  — Testing                           [ ]
+M7  — Validation and Errors             [x]
+M8  — Logging                           [x]
+M9  — Testing                           [x]
 M10 — API Documentation                 [ ]
 M11 — Security and Robustness           [ ]
 M12 — CI                                [ ]
