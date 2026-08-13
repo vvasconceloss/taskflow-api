@@ -15,6 +15,11 @@ using TaskFlow.Application.Common.Interfaces;
 using TaskFlow.Infrastructure;
 using TaskFlow.Infrastructure.Persistence;
 
+// Disable file-system config reload: the default appsettings.json watcher (inotify) exceeds the
+// limit in constrained containers (e.g. Render free tier). Configuration comes from environment
+// variables in production.
+Environment.SetEnvironmentVariable("hostBuilder__reloadConfigOnChange", "false");
+
 var builder = WebApplication.CreateBuilder(args);
 
 var loggerConfiguration = new LoggerConfiguration()
