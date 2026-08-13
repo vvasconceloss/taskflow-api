@@ -401,15 +401,15 @@ Within a workspace, members can organize work into projects.
 It is not allowed to delete a project that still has associated tasks (the user must archive or move the tasks first). This decision favors explicit action over silent cascading deletion.
 
 ### Tasks
-- [ ] Create the `EntityTypeConfiguration` for `Project` + migration
-- [ ] Implement `CreateProjectCommand`
-- [ ] Implement `ListProjectsQuery` (by workspace, hiding archived by default)
-- [ ] Implement `GetProjectQuery`
-- [ ] Implement `UpdateProjectCommand`
-- [ ] Implement `ArchiveProjectCommand`
-- [ ] Implement `DeleteProjectCommand` with the "no associated tasks" validation
-- [ ] Tests for all endpoints, including the deletion error case
-- [ ] Isolation tests: a member of another workspace cannot access the project
+- [x] Create the `EntityTypeConfiguration` for `Project` + migration
+- [x] Implement `CreateProjectCommand`
+- [x] Implement `ListProjectsQuery` (by workspace, hiding archived by default)
+- [x] Implement `GetProjectQuery`
+- [x] Implement `UpdateProjectCommand`
+- [x] Implement `ArchiveProjectCommand`
+- [x] Implement `DeleteProjectCommand` with the "no associated tasks" validation
+- [x] Tests for all endpoints, including the deletion error case
+- [x] Isolation tests: a member of another workspace cannot access the project
 
 ### Completion criteria
 Full project CRUD working, with the deletion rule enforced and covered by tests.
