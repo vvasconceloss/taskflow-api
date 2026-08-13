@@ -488,12 +488,12 @@ GET /projects/{projectId}/tasks?status=InProgress&priority=High&assigneeId={guid
 ```
 
 ### Tasks
-- [ ] Create a generic `PagedResult<T>` in `Application`
-- [ ] Implement filters by `status`, `priority`, `assigneeId` in `ListTasksQuery`
-- [ ] Implement pagination (`page`, `pageSize`, with a maximum `pageSize` limit to prevent abuse)
-- [ ] Implement sorting (`sortBy`, `sortDir`) with a whitelist of allowed fields (never accept a free-form column name from the client)
-- [ ] Apply the same pattern to `ListProjectsQuery` and `ListMyWorkspacesQuery`
-- [ ] Tests: combined filters, pagination on an empty page, sorting in both directions, whitelist rejecting an invalid field
+- [x] Create a generic `PagedResult<T>` in `Application`
+- [x] Implement filters by `status`, `priority`, `assigneeId` in `ListTasksQuery`
+- [x] Implement pagination (`page`, `pageSize`, with a maximum `pageSize` limit to prevent abuse)
+- [x] Implement sorting (`sortBy`, `sortDir`) with a whitelist of allowed fields (never accept a free-form column name from the client)
+- [x] Apply the same pattern to `ListProjectsQuery` and `ListMyWorkspacesQuery`
+- [x] Tests: combined filters, pagination on an empty page, sorting in both directions, whitelist rejecting an invalid field
 
 ### Completion criteria
 All listing endpoints consistently support filtering, pagination, and sorting, and this is covered by tests.
@@ -901,13 +901,13 @@ These items should only be considered once the core project is published and ser
 ## Milestones Summary
 
 ```text
-M0  — Foundation                        [ ]
-M1  — Domain and Rules                  [ ]
-M2  — Authentication                    [ ]
-M3  — Workspaces and Members            [ ]
-M4  — Projects                          [ ]
-M5  — Tasks                             [ ]
-M6  — Advanced Listing                  [ ]
+M0  — Foundation                        [x]
+M1  — Domain and Rules                  [x]
+M2  — Authentication                    [x]
+M3  — Workspaces and Members            [x]
+M4  — Projects                          [x]
+M5  — Tasks                             [x]
+M6  — Advanced Listing                  [x]
 M7  — Validation and Errors             [ ]
 M8  — Logging                           [ ]
 M9  — Testing                           [ ]
