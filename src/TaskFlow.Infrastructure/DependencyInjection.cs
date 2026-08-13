@@ -1,7 +1,9 @@
+using TaskFlow.Infrastructure.Services;
+using TaskFlow.Infrastructure.Persistence;
+using TaskFlow.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TaskFlow.Infrastructure.Persistence;
 
 namespace TaskFlow.Infrastructure
 {
@@ -13,6 +15,8 @@ namespace TaskFlow.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
+
+            services.AddSingleton<ITokenService, JwtTokenService>();
 
             return services;
         }
