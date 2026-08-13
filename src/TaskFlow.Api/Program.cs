@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Serilog;
 using Serilog.Events;
@@ -12,6 +13,7 @@ using TaskFlow.Api.Services;
 using TaskFlow.Application;
 using TaskFlow.Application.Common.Interfaces;
 using TaskFlow.Infrastructure;
+using TaskFlow.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,7 @@ var loggerConfiguration = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}{NewLine}{Properties}");
 
-if (!builder.Environment.IsEnvironment("Testing"))
+if (builder.Environment.IsDevelopment())
 {
     loggerConfiguration.WriteTo.File(
         path: "logs/taskflow-.json",
@@ -115,6 +117,13 @@ app.UseRateLimiter();
 app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
+
+if (app.Configuration.GetValue("Database:AutoMigrate", true))
+{
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
 app.MapHealthChecks("/health");
 app.MapAuthEndpoints();

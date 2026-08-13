@@ -29,7 +29,8 @@ public class TaskFlowApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
                 ["Jwt:Issuer"] = "TaskFlow.Api",
                 ["Jwt:Audience"] = "TaskFlow.Client",
                 ["Jwt:ExpiryMinutes"] = "60",
-                ["RateLimiting:Login:PermitLimit"] = "1000000"
+                ["RateLimiting:Login:PermitLimit"] = "1000000",
+                ["Database:AutoMigrate"] = "false"
             });
         });
     }
