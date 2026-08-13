@@ -1,5 +1,6 @@
 using MediatR;
 using TaskFlow.Api.Contracts;
+using TaskFlow.Application.Common.Models;
 using TaskFlow.Application.Features.Projects.ArchiveProject;
 using TaskFlow.Application.Features.Projects.CreateProject;
 using TaskFlow.Application.Features.Projects.DeleteProject;
@@ -15,10 +16,21 @@ namespace TaskFlow.Api.Endpoints
         {
             var workspaceGroup = app.MapGroup("/workspaces/{workspaceId:guid}/projects").RequireAuthorization();
 
-            workspaceGroup.MapGet("/", async (Guid workspaceId, ISender sender) =>
+            workspaceGroup.MapGet("/", async (
+                Guid workspaceId,
+                int page = 1,
+                int pageSize = 20,
+                string? sortBy = null,
+                string? sortDir = null,
+                ISender sender = default!) =>
             {
-                var projects = await sender.Send(new ListProjectsQuery(workspaceId));
-                return Results.Ok(projects.Select(ToResponse));
+                var paged = await sender.Send(new ListProjectsQuery(workspaceId, page, pageSize, sortBy, sortDir == "desc"));
+                return Results.Ok(new PagedResult<ProjectResponse>(
+                    paged.Items.Select(ToResponse).ToList(),
+                    paged.Page,
+                    paged.PageSize,
+                    paged.TotalItems,
+                    paged.TotalPages));
             });
 
             workspaceGroup.MapPost("/", async (Guid workspaceId, CreateProjectRequest request, ISender sender) =>

@@ -13,6 +13,7 @@ namespace TaskFlow.Api.Exceptions
                 UnauthorizedException => (StatusCodes.Status401Unauthorized, exception.Message),
                 ForbiddenException => (StatusCodes.Status403Forbidden, exception.Message),
                 NotFoundException => (StatusCodes.Status404NotFound, exception.Message),
+                ValidationException => (StatusCodes.Status400BadRequest, exception.Message),
                 _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
             };
 

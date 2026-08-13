@@ -1,5 +1,6 @@
 using MediatR;
 using TaskFlow.Api.Contracts;
+using TaskFlow.Application.Common.Models;
 using TaskFlow.Application.Features.Members.AddMember;
 using TaskFlow.Application.Features.Members.RemoveMember;
 using TaskFlow.Application.Features.Members.UpdateMemberRole;
@@ -17,10 +18,20 @@ namespace TaskFlow.Api.Endpoints
         {
             var group = app.MapGroup("/workspaces").RequireAuthorization();
 
-            group.MapGet("/", async (ISender sender) =>
+            group.MapGet("/", async (
+                int page = 1,
+                int pageSize = 20,
+                string? sortBy = null,
+                string? sortDir = null,
+                ISender sender = default!) =>
             {
-                var workspaces = await sender.Send(new ListMyWorkspacesQuery());
-                return Results.Ok(workspaces.Select(w => new WorkspaceResponse(w.Id, w.Name, w.CreatedAt)));
+                var paged = await sender.Send(new ListMyWorkspacesQuery(page, pageSize, sortBy, sortDir == "desc"));
+                return Results.Ok(new PagedResult<WorkspaceResponse>(
+                    paged.Items.Select(w => new WorkspaceResponse(w.Id, w.Name, w.CreatedAt)).ToList(),
+                    paged.Page,
+                    paged.PageSize,
+                    paged.TotalItems,
+                    paged.TotalPages));
             });
 
             group.MapPost("/", async (CreateWorkspaceCommand command, ISender sender) =>
