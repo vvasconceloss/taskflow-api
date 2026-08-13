@@ -328,13 +328,13 @@ TaskFlow.Application/Features/Auth/
 - [x] Map Minimal API endpoints: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
 - [x] Configure authentication/authorization middleware in `Program.cs`
 - [ ] Write tests:
-  - [ ] Register a user successfully
-  - [ ] Reject a duplicate email
+  - [x] Register a user successfully
+  - [x] Reject a duplicate email
   - [ ] Reject a weak password (minimum validation rule)
-  - [ ] Log in successfully
-  - [ ] Reject invalid credentials
-  - [ ] Access `/auth/me` while authenticated
-  - [ ] Reject `/auth/me` without a token
+  - [x] Log in successfully
+  - [x] Reject invalid credentials
+  - [x] Access `/auth/me` while authenticated
+  - [x] Reject `/auth/me` without a token
 
 ### Completion criteria
 All authentication tests pass, and it is possible to register, authenticate, and validate a session via direct calls (Swagger/Postman/curl).
