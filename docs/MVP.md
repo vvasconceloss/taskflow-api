@@ -578,11 +578,11 @@ Have visibility into what's happening in the API, both in development and (event
 - Request/response logging middleware (never logging a password body).
 
 ### Tasks
-- [ ] Configure Serilog in `Program.cs` (console + file)
-- [ ] Add request logging middleware (`UseSerilogRequestLogging`)
-- [ ] Enrich logs with `userId` when authenticated
-- [ ] Confirm no log exposes a password, password hash, or full JWT token
-- [ ] Manually validate the logs in a full flow (register → login → create task)
+- [x] Configure Serilog in `Program.cs` (console + file)
+- [x] Add request logging middleware (`UseSerilogRequestLogging`)
+- [x] Enrich logs with `userId` when authenticated
+- [x] Confirm no log exposes a password, password hash, or full JWT token
+- [x] Manually validate the logs in a full flow (register → login → create task)
 
 ### Completion criteria
 Structured logs appear in the console on every call, with no sensitive data exposed.
