@@ -38,4 +38,5 @@ app.MapHealthChecks("/health");
 app.MapAuthEndpoints();
 app.MapWorkspaceEndpoints();
 app.MapProjectEndpoints();
+app.MapTaskEndpoints();
 app.Run();
