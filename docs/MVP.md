@@ -448,16 +448,16 @@ Creation example:
 - `AssigneeUserId` can only be a `UserId` that is a member of the same workspace as the project — validated in the handler before persisting.
 
 ### Tasks
-- [ ] Create the `EntityTypeConfiguration` for `TaskItem` + migration
-- [ ] Implement `CreateTaskCommand`
-- [ ] Implement `ListTasksQuery` (by project)
-- [ ] Implement `GetTaskQuery`
-- [ ] Implement `UpdateTaskCommand`
-- [ ] Implement `UpdateTaskStatusCommand` (with the `CompletedAt` rule)
-- [ ] Implement `UpdateTaskAssigneeCommand` (with the membership validation)
-- [ ] Implement `DeleteTaskCommand`
-- [ ] Tests for all endpoints, including the two business rules above
-- [ ] Test: assigning a task to a non-member should fail
+- [x] Create the `EntityTypeConfiguration` for `TaskItem` + migration
+- [x] Implement `CreateTaskCommand`
+- [x] Implement `ListTasksQuery` (by project)
+- [x] Implement `GetTaskQuery`
+- [x] Implement `UpdateTaskCommand`
+- [x] Implement `UpdateTaskStatusCommand` (with the `CompletedAt` rule)
+- [x] Implement `UpdateTaskAssigneeCommand` (with the membership validation)
+- [x] Implement `DeleteTaskCommand`
+- [x] Tests for all endpoints, including the two business rules above
+- [x] Test: assigning a task to a non-member should fail
 
 ### Completion criteria
 Full task CRUD, with the two main business rules covered by automated tests.

@@ -34,7 +34,7 @@ automated testing and CI/CD — not just CRUD.
 - [x] **Authentication** — JWT-based register/login
 - [x] **Workspaces & Members** — role-based access (Admin/Member)
 - [x] **Projects** — organized per workspace, with archiving
-- [ ] **Tasks** — status, priority, assignee, due date
+- [x] **Tasks** — status, priority, assignee, due date
 - [ ] **Advanced listing** — filtering, pagination, sorting on all collections
 - [ ] **Consistent validation & error handling**
 - [ ] **Automated tests** — unit + integration (Testcontainers)
