@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using TaskFlow.Api.Endpoints;
 using TaskFlow.Api.Exceptions;
 using TaskFlow.Api.Extensions;
@@ -16,6 +17,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -33,4 +36,5 @@ app.UseAuthorization();
 
 app.MapHealthChecks("/health");
 app.MapAuthEndpoints();
+app.MapWorkspaceEndpoints();
 app.Run();
