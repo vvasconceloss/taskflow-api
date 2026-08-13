@@ -884,20 +884,6 @@ These items should only be considered once the core project is published and ser
 
 ---
 
-## Suggested Day-by-Day Distribution
-
-| Day | Phases covered |
-|---|---|
-| 1 | Phase 0 (Foundation) + Phase 1 (Domain) |
-| 2 | Phase 2 (Authentication) + Phase 3 (Workspaces and Members) |
-| 3 | Phase 4 (Projects) + Phase 5 (Tasks) |
-| 4 | Phase 6 (Advanced Listing) + Phase 7 (Validation/Errors) + Phase 8 (Logging) |
-| 5 | Phase 9 (Testing) |
-| 6 | Phase 10 (Documentation) + Phase 11 (Security) + Phase 12 (CI) + Phase 13 (Deployment) |
-| 7 (buffer) | Phase 14 (README/Presentation) + slack for the unexpected |
-
----
-
 ## Milestones Summary
 
 ```text
