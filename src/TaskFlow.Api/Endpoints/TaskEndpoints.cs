@@ -1,5 +1,6 @@
 using MediatR;
 using TaskFlow.Api.Contracts;
+using TaskFlow.Api.Extensions;
 using TaskFlow.Application.Common.Models;
 using TaskFlow.Application.Features.Tasks.CreateTask;
 using TaskFlow.Application.Features.Tasks.DeleteTask;
@@ -39,14 +40,18 @@ namespace TaskFlow.Api.Endpoints
                     paged.PageSize,
                     paged.TotalItems,
                     paged.TotalPages));
-            });
+            }).WithSummary("Lists the project's tasks with filtering, pagination and sorting")
+              .Produces<PagedResult<TaskResponse>>(StatusCodes.Status200OK)
+              .WithApiErrorResponses();
 
             projectGroup.MapPost("/", async (Guid projectId, CreateTaskRequest request, ISender sender) =>
             {
                 var task = await sender.Send(new CreateTaskCommand(
                     projectId, request.Title, request.Description, request.Priority ?? TaskPriority.Low, request.DueDate));
                 return Results.Created(string.Empty, ToResponse(task));
-            });
+            }).WithSummary("Creates a task in the project")
+              .Produces<TaskResponse>(StatusCodes.Status201Created)
+              .WithApiErrorResponses();
 
             var taskGroup = app.MapGroup("/tasks").RequireAuthorization();
 
@@ -54,31 +59,41 @@ namespace TaskFlow.Api.Endpoints
             {
                 var task = await sender.Send(new GetTaskQuery(taskId));
                 return Results.Ok(ToResponse(task));
-            });
+            }).WithSummary("Returns a task by id")
+              .Produces<TaskResponse>(StatusCodes.Status200OK)
+              .WithApiErrorResponses();
 
             taskGroup.MapPatch("/{taskId:guid}", async (Guid taskId, UpdateTaskRequest request, ISender sender) =>
             {
                 var task = await sender.Send(new UpdateTaskCommand(taskId, request.Title, request.Description, request.Priority, request.DueDate));
                 return Results.Ok(ToResponse(task));
-            });
+            }).WithSummary("Updates a task's title, description, priority and due date")
+              .Produces<TaskResponse>(StatusCodes.Status200OK)
+              .WithApiErrorResponses();
 
             taskGroup.MapPatch("/{taskId:guid}/status", async (Guid taskId, UpdateTaskStatusRequest request, ISender sender) =>
             {
                 var task = await sender.Send(new UpdateTaskStatusCommand(taskId, request.Status));
                 return Results.Ok(ToResponse(task));
-            });
+            }).WithSummary("Changes a task's status; Done fills completedAt (server-side)")
+              .Produces<TaskResponse>(StatusCodes.Status200OK)
+              .WithApiErrorResponses();
 
             taskGroup.MapPatch("/{taskId:guid}/assignee", async (Guid taskId, UpdateTaskAssigneeRequest request, ISender sender) =>
             {
                 var task = await sender.Send(new UpdateTaskAssigneeCommand(taskId, request.AssigneeUserId));
                 return Results.Ok(ToResponse(task));
-            });
+            }).WithSummary("Assigns or removes the assignee; must be a workspace member")
+              .Produces<TaskResponse>(StatusCodes.Status200OK)
+              .WithApiErrorResponses();
 
             taskGroup.MapDelete("/{taskId:guid}", async (Guid taskId, ISender sender) =>
             {
                 await sender.Send(new DeleteTaskCommand(taskId));
                 return Results.NoContent();
-            });
+            }).WithSummary("Deletes a task")
+              .Produces(StatusCodes.Status204NoContent)
+              .WithApiErrorResponses();
 
             return app;
         }
