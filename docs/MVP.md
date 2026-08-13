@@ -363,18 +363,18 @@ The authenticated user can create workspaces and manage who is part of them.
 Create a MediatR `IPipelineBehavior<TRequest, TResponse>` (`WorkspaceAuthorizationBehavior`) that, for commands/queries marked with an `IWorkspaceScoped { Guid WorkspaceId }` interface, automatically checks whether the authenticated user is a member (and, when needed, an Admin) of that workspace — **before** the handler runs. This avoids repeating the check manually in every handler (same principle as the isolation rule from Phase 1).
 
 ### Tasks
-- [ ] Create the `EntityTypeConfiguration` for `Workspace` and `WorkspaceMember` + migration
-- [ ] Implement `CreateWorkspaceCommand` (creates the workspace + the Admin `WorkspaceMember` in the same transaction)
-- [ ] Implement `ListMyWorkspacesQuery`
-- [ ] Implement `GetWorkspaceQuery`
-- [ ] Implement `UpdateWorkspaceCommand` (Admin only)
-- [ ] Implement `DeleteWorkspaceCommand` (Admin only)
-- [ ] Implement `AddMemberCommand` (by email; error if user doesn't exist or is already a member)
-- [ ] Implement `UpdateMemberRoleCommand`
-- [ ] Implement `RemoveMemberCommand` with the "don't remove the last Admin" rule
-- [ ] Create `IWorkspaceScoped` + `WorkspaceAuthorizationBehavior` (MediatR pipeline)
-- [ ] Tests: creation, listing isolated per user, editing restricted to Admin, removal of the last Admin blocked
-- [ ] Isolation tests: user A cannot see/edit user B's workspace
+- [x] Create the `EntityTypeConfiguration` for `Workspace` and `WorkspaceMember` + migration
+- [x] Implement `CreateWorkspaceCommand` (creates the workspace + the Admin `WorkspaceMember` in the same transaction)
+- [x] Implement `ListMyWorkspacesQuery`
+- [x] Implement `GetWorkspaceQuery`
+- [x] Implement `UpdateWorkspaceCommand` (Admin only)
+- [x] Implement `DeleteWorkspaceCommand` (Admin only)
+- [x] Implement `AddMemberCommand` (by email; error if user doesn't exist or is already a member)
+- [x] Implement `UpdateMemberRoleCommand`
+- [x] Implement `RemoveMemberCommand` with the "don't remove the last Admin" rule
+- [x] Create `IWorkspaceScoped` + `WorkspaceAuthorizationBehavior` (MediatR pipeline)
+- [x] Tests: creation, listing isolated per user, editing restricted to Admin, removal of the last Admin blocked
+- [x] Isolation tests: user A cannot see/edit user B's workspace
 
 ### Completion criteria
 A user can create workspaces, invite members, change roles, and the "don't remove the last Admin" rule is covered by an automated test.
