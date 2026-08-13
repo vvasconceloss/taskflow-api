@@ -1,3 +1,4 @@
+using TaskFlow.Application.Common.Models;
 using TaskFlow.Domain.Entities;
 
 namespace TaskFlow.Application.Common.Interfaces
@@ -5,7 +6,13 @@ namespace TaskFlow.Application.Common.Interfaces
     public interface IProjectRepository
     {
         Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<List<Project>> GetProjectsByWorkspaceAsync(Guid workspaceId, CancellationToken cancellationToken);
+        Task<PagedResult<Project>> GetProjectsAsync(
+            Guid workspaceId,
+            string? sortBy,
+            bool sortDescending,
+            int page,
+            int pageSize,
+            CancellationToken cancellationToken);
         Task<Guid?> GetWorkspaceIdByProjectIdAsync(Guid projectId, CancellationToken cancellationToken);
         Task<bool> HasTasksAsync(Guid projectId, CancellationToken cancellationToken);
         Task CreateAsync(Project project, CancellationToken cancellationToken);
