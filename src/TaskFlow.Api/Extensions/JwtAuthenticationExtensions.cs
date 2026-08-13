@@ -12,9 +12,15 @@ namespace TaskFlow.Api.Extensions
             var jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
                 ?? throw new InvalidOperationException($"Configuration section '{JwtOptions.SectionName}' is missing.");
 
+            if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
+                throw new InvalidOperationException($"Configuration section '{JwtOptions.SectionName}:Secret' is missing.");
+
+            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    options.MapInboundClaims = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
