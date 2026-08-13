@@ -779,8 +779,8 @@ ENTRYPOINT ["dotnet", "TaskFlow.Api.dll"]
 - Minimal logging configured in the production environment.
 
 ### Tasks
-- [ ] Create a multi-stage `Dockerfile`
-- [ ] Validate the image locally (`docker build` + `docker run`)
+- [x] Create a multi-stage `Dockerfile`
+- [x] Validate the image locally (`docker build` + `docker run`)
 - [ ] Choose a deployment platform (Render or Railway, free tier)
 - [ ] Choose a managed Postgres (Neon, Supabase, or the platform's own Postgres)
 - [ ] Configure production environment variables
