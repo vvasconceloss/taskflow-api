@@ -38,7 +38,7 @@ automated testing and CI/CD — not just CRUD.
 - [x] **Advanced listing** — filtering, pagination, sorting on all collections
 - [x] **Consistent validation & error handling**
 - [x] **Automated tests** — unit + integration (Testcontainers)
-- [ ] **CI pipeline** — build, test and lint on every PR
+- [x] **CI pipeline** — build, test and lint on every PR
 - [ ] **Dockerized & deployed** — publicly accessible API
 
 ---
