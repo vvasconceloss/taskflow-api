@@ -325,8 +325,8 @@ TaskFlow.Application/Features/Auth/
 - [x] Implement `RegisterCommand` + handler (password hashing, duplicate email check)
 - [x] Implement `LoginCommand` + handler (password verification, JWT generation)
 - [x] Implement `GetMeQuery` + handler
-- [ ] Map Minimal API endpoints: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
-- [ ] Configure authentication/authorization middleware in `Program.cs`
+- [x] Map Minimal API endpoints: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
+- [x] Configure authentication/authorization middleware in `Program.cs`
 - [ ] Write tests:
   - [ ] Register a user successfully
   - [ ] Reject a duplicate email
