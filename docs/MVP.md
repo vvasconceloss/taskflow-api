@@ -651,11 +651,11 @@ Anyone (including a recruiter) can open Swagger and understand/test the API with
 - Swagger's "Authorize" button configured for JWT Bearer.
 
 ### Tasks
-- [ ] Configure Swashbuckle/Swagger with JWT Bearer support in the "Authorize" button
-- [ ] Add a summary and description for each Minimal API endpoint
-- [ ] Document the main error codes per endpoint
-- [ ] Export and version the Postman/Bruno collection with real examples
-- [ ] Test the full flow using only Swagger, from scratch (register → login → workspace → project → task)
+- [x] Configure Swashbuckle/Swagger with JWT Bearer support in the "Authorize" button
+- [x] Add a summary and description for each Minimal API endpoint
+- [x] Document the main error codes per endpoint
+- [x] Export and version the Postman/Bruno collection with real examples
+- [x] Test the full flow using only Swagger, from scratch (register → login → workspace → project → task)
 
 ### Completion criteria
 It is possible to test the entire API flow using only Swagger, without needing to read the source code.
@@ -911,7 +911,7 @@ M6  — Advanced Listing                  [x]
 M7  — Validation and Errors             [x]
 M8  — Logging                           [x]
 M9  — Testing                           [x]
-M10 — API Documentation                 [ ]
+M10 — API Documentation                 [x]
 M11 — Security and Robustness           [ ]
 M12 — CI                                [ ]
 M13 — Deployment                        [ ]
