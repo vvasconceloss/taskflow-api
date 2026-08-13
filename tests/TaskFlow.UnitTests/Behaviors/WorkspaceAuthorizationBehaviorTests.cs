@@ -11,6 +11,7 @@ public class WorkspaceAuthorizationBehaviorTests
 {
     private readonly Mock<IWorkspaceRepository> _workspaces = new();
     private readonly Mock<IProjectRepository> _projects = new();
+    private readonly Mock<ITaskRepository> _tasks = new();
     private readonly Mock<ICurrentUserService> _currentUser = new();
 
     private sealed class ScopedRequest(Guid workspaceId) : IWorkspaceScoped, IRequest<Unit>
@@ -28,9 +29,14 @@ public class WorkspaceAuthorizationBehaviorTests
         public Guid ProjectId { get; } = projectId;
     }
 
+    private sealed class TaskScopedRequest(Guid taskId) : ITaskScoped, IRequest<Unit>
+    {
+        public Guid TaskId { get; } = taskId;
+    }
+
     private WorkspaceAuthorizationBehavior<TRequest, Unit> CreateBehavior<TRequest>()
         where TRequest : IRequest<Unit>
-        => new(_workspaces.Object, _projects.Object, _currentUser.Object);
+        => new(_workspaces.Object, _projects.Object, _tasks.Object, _currentUser.Object);
 
     [Fact]
     public async Task Handle_WhenMember_ShouldContinueToNext()
@@ -145,6 +151,57 @@ public class WorkspaceAuthorizationBehaviorTests
 
         var act = () => behavior.Handle(
             new ProjectScopedRequest(Guid.NewGuid()),
+            _ => Task.FromResult(Unit.Value),
+            CancellationToken.None);
+
+        await act.Should().ThrowAsync<NotFoundException>();
+    }
+
+    [Fact]
+    public async Task Handle_WhenMemberOfTasksWorkspace_ShouldContinueToNext()
+    {
+        var workspaceId = Guid.NewGuid();
+        _tasks.Setup(t => t.GetWorkspaceIdByTaskIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(workspaceId);
+        _workspaces.Setup(w => w.IsMemberAsync(workspaceId, It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+        var behavior = CreateBehavior<TaskScopedRequest>();
+        var nextCalled = false;
+
+        await behavior.Handle(
+            new TaskScopedRequest(Guid.NewGuid()),
+            _ => { nextCalled = true; return Task.FromResult(Unit.Value); },
+            CancellationToken.None);
+
+        nextCalled.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Handle_WhenNotMemberOfTasksWorkspace_ShouldThrowForbidden()
+    {
+        _tasks.Setup(t => t.GetWorkspaceIdByTaskIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Guid.NewGuid());
+        _workspaces.Setup(w => w.IsMemberAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(false);
+        var behavior = CreateBehavior<TaskScopedRequest>();
+
+        var act = () => behavior.Handle(
+            new TaskScopedRequest(Guid.NewGuid()),
+            _ => Task.FromResult(Unit.Value),
+            CancellationToken.None);
+
+        await act.Should().ThrowAsync<ForbiddenException>();
+    }
+
+    [Fact]
+    public async Task Handle_WhenTaskDoesNotExist_ShouldThrowNotFound()
+    {
+        _tasks.Setup(t => t.GetWorkspaceIdByTaskIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Guid?)null);
+        var behavior = CreateBehavior<TaskScopedRequest>();
+
+        var act = () => behavior.Handle(
+            new TaskScopedRequest(Guid.NewGuid()),
             _ => Task.FromResult(Unit.Value),
             CancellationToken.None);
 
