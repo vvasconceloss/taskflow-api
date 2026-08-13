@@ -26,9 +26,11 @@ namespace TaskFlow.Api.Endpoints
             {
                 var result = await sender.Send(command);
                 return Results.Ok(result);
-            }).WithSummary("Authenticates and returns a JWT token")
+            }).RequireRateLimiting("login")
+              .WithSummary("Authenticates and returns a JWT token")
               .Produces<TokenResult>(StatusCodes.Status200OK)
-              .Produces<ApiErrorResponse>(StatusCodes.Status401Unauthorized);
+              .Produces<ApiErrorResponse>(StatusCodes.Status401Unauthorized)
+              .Produces<ApiErrorResponse>(StatusCodes.Status429TooManyRequests);
 
             group.MapGet("/me", async (ISender sender) =>
             {
