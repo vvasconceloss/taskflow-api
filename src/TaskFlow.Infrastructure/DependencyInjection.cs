@@ -18,6 +18,7 @@ namespace TaskFlow.Infrastructure
             services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
             services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddSingleton<ITokenService, JwtTokenService>();
 
