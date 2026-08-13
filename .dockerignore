@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+.git/
+logs/
+TestResults/
+.vs/
+*.user
+.env
