@@ -13,7 +13,8 @@ namespace TaskFlow.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(PostgresConnectionStringParser.ToNpgsqlFormat(
+                    configuration.GetConnectionString("DefaultConnection"))));
 
             services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
