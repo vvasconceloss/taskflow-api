@@ -1,3 +1,5 @@
+using TaskFlow.Api.Endpoints;
+using TaskFlow.Api.Exceptions;
 using TaskFlow.Api.Extensions;
 using TaskFlow.Api.Services;
 using TaskFlow.Application;
@@ -12,6 +14,8 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,8 +27,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
+app.MapAuthEndpoints();
 app.Run();
