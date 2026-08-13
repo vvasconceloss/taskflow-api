@@ -7,6 +7,7 @@ namespace TaskFlow.Application.Common.Behaviors
     public class WorkspaceAuthorizationBehavior<TRequest, TResponse>(
         IWorkspaceRepository workspaces,
         IProjectRepository projects,
+        ITaskRepository tasks,
         ICurrentUserService currentUser)
         : IPipelineBehavior<TRequest, TResponse>
     {
@@ -30,6 +31,14 @@ namespace TaskFlow.Application.Common.Behaviors
             {
                 var workspaceId = await projects.GetWorkspaceIdByProjectIdAsync(projectScoped.ProjectId, cancellationToken)
                     ?? throw new NotFoundException("Project not found.");
+
+                await EnsureMemberAsync(workspaceId, cancellationToken);
+            }
+
+            if (request is ITaskScoped taskScoped)
+            {
+                var workspaceId = await tasks.GetWorkspaceIdByTaskIdAsync(taskScoped.TaskId, cancellationToken)
+                    ?? throw new NotFoundException("Task not found.");
 
                 await EnsureMemberAsync(workspaceId, cancellationToken);
             }
