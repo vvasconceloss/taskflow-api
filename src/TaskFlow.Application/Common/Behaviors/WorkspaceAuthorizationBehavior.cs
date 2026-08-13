@@ -6,6 +6,7 @@ namespace TaskFlow.Application.Common.Behaviors
 {
     public class WorkspaceAuthorizationBehavior<TRequest, TResponse>(
         IWorkspaceRepository workspaces,
+        IProjectRepository projects,
         ICurrentUserService currentUser)
         : IPipelineBehavior<TRequest, TResponse>
     {
@@ -16,10 +17,7 @@ namespace TaskFlow.Application.Common.Behaviors
         {
             if (request is IWorkspaceScoped scoped)
             {
-                if (!await workspaces.IsMemberAsync(scoped.WorkspaceId, currentUser.UserId, cancellationToken))
-                {
-                    throw new ForbiddenException("You are not a member of this workspace.");
-                }
+                await EnsureMemberAsync(scoped.WorkspaceId, cancellationToken);
 
                 if (request is IAdminWorkspaceScoped &&
                     !await workspaces.IsAdminAsync(scoped.WorkspaceId, currentUser.UserId, cancellationToken))
@@ -28,7 +26,23 @@ namespace TaskFlow.Application.Common.Behaviors
                 }
             }
 
+            if (request is IProjectScoped projectScoped)
+            {
+                var workspaceId = await projects.GetWorkspaceIdByProjectIdAsync(projectScoped.ProjectId, cancellationToken)
+                    ?? throw new NotFoundException("Project not found.");
+
+                await EnsureMemberAsync(workspaceId, cancellationToken);
+            }
+
             return await next();
+        }
+
+        private async Task EnsureMemberAsync(Guid workspaceId, CancellationToken cancellationToken)
+        {
+            if (!await workspaces.IsMemberAsync(workspaceId, currentUser.UserId, cancellationToken))
+            {
+                throw new ForbiddenException("You are not a member of this workspace.");
+            }
         }
     }
 }
