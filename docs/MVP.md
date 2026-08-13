@@ -322,7 +322,7 @@ TaskFlow.Application/Features/Auth/
 
 ### Tasks
 - [x] Configure Identity/JWT (`Microsoft.AspNetCore.Authentication.JwtBearer`)
-- [ ] Implement `RegisterCommand` + handler (password hashing, duplicate email check)
+- [x] Implement `RegisterCommand` + handler (password hashing, duplicate email check)
 - [ ] Implement `LoginCommand` + handler (password verification, JWT generation)
 - [ ] Implement `GetMeQuery` + handler
 - [ ] Map Minimal API endpoints: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
