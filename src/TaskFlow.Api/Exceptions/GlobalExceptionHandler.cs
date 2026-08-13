@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using TaskFlow.Api.Contracts;
 using TaskFlow.Application.Common.Exceptions;
 
 namespace TaskFlow.Api.Exceptions
@@ -7,14 +8,14 @@ namespace TaskFlow.Api.Exceptions
     {
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            var (statusCode, message) = exception switch
+            var (statusCode, type, message) = exception switch
             {
-                ConflictException => (StatusCodes.Status409Conflict, exception.Message),
-                UnauthorizedException => (StatusCodes.Status401Unauthorized, exception.Message),
-                ForbiddenException => (StatusCodes.Status403Forbidden, exception.Message),
-                NotFoundException => (StatusCodes.Status404NotFound, exception.Message),
-                ValidationException => (StatusCodes.Status400BadRequest, exception.Message),
-                _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
+                ConflictException => (StatusCodes.Status409Conflict, "ConflictError", exception.Message),
+                UnauthorizedException => (StatusCodes.Status401Unauthorized, "UnauthorizedError", exception.Message),
+                ForbiddenException => (StatusCodes.Status403Forbidden, "ForbiddenError", exception.Message),
+                NotFoundException => (StatusCodes.Status404NotFound, "NotFoundError", exception.Message),
+                ValidationException => (StatusCodes.Status400BadRequest, "ValidationError", exception.Message),
+                _ => (StatusCodes.Status500InternalServerError, "InternalServerError", "An unexpected error occurred.")
             };
 
             if (statusCode == StatusCodes.Status500InternalServerError)
@@ -23,7 +24,11 @@ namespace TaskFlow.Api.Exceptions
             }
 
             httpContext.Response.StatusCode = statusCode;
-            await httpContext.Response.WriteAsJsonAsync(new { message }, cancellationToken);
+            await httpContext.Response.WriteAsJsonAsync(new ApiErrorResponse(
+                type,
+                message,
+                (exception as ValidationException)?.Errors,
+                httpContext.TraceIdentifier), cancellationToken);
 
             return true;
         }
