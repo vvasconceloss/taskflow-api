@@ -1,4 +1,6 @@
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using TaskFlow.Application.Common.Behaviors;
 
 namespace TaskFlow.Application
 {
@@ -7,6 +9,8 @@ namespace TaskFlow.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(WorkspaceAuthorizationBehavior<,>));
 
             return services;
         }
