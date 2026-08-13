@@ -27,6 +27,14 @@ It's built as a portfolio piece to demonstrate production-grade backend patterns
 architecture, real authentication/authorization, domain modeling with enforced business rules,
 automated testing and CI/CD — not just CRUD.
 
+## Live API
+
+The MVP is deployed on **Render**: [https://taskflow-api-np2z.onrender.com](https://taskflow-api-np2z.onrender.com)
+
+- `GET /health` — liveness check
+- Explore the endpoints with the [Postman collection](docs/taskflow.postman_collection.json) (set
+  `baseUrl` to the URL above)
+
 ---
 
 ## Planned Features
@@ -39,7 +47,7 @@ automated testing and CI/CD — not just CRUD.
 - [x] **Consistent validation & error handling**
 - [x] **Automated tests** — unit + integration (Testcontainers)
 - [x] **CI pipeline** — build, test and lint on every PR
-- [ ] **Dockerized & deployed** — publicly accessible API
+- [x] **Dockerized & deployed** — publicly accessible API
 
 ---
 
