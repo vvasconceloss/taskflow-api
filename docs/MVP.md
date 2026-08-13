@@ -810,12 +810,9 @@ Turn the code into a portfolio project that explains itself.
 9. "What I'd do differently/next steps" (refresh token, notifications, task comments, etc.)
 
 ### Tasks
-- [ ] Write the complete README following the structure above
-- [ ] Record a short GIF of the Swagger flow
-- [ ] Review all commits (clear messages, not too many loose "fix", "wip")
-- [ ] Add a license (MIT, for example)
-- [ ] Pin the repository on your GitHub profile
-- [ ] Write a short LinkedIn post about a specific technical decision from the project (not "finished a CRUD")
+- [x] Write the complete README following the structure above
+- [x] Review all commits (clear messages, not too many loose "fix", "wip")
+- [x] Add a license (MIT, for example)
 
 ### Completion criteria
 Someone who has never seen the project can, just by reading the README, understand what it does, why it was built that way, and run it locally within a few minutes.
@@ -898,7 +895,7 @@ M9  — Testing                           [x]
 M10 — API Documentation                 [x]
 M11 — Security and Robustness           [x]
 M12 — CI                                [x]
-M13 — Deployment                        [ ]
-M14 — README and Presentation           [ ]
-M15 — MVP Release                       [ ]
+M13 — Deployment                        [x]
+M14 — README and Presentation           [x]
+M15 — MVP Release                       [x]
 ```
