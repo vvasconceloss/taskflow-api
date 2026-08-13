@@ -37,6 +37,20 @@ public class PostgresConnectionStringParserTests
     }
 
     [Fact]
+    public void ToNpgsqlFormat_WhenPostgresUriWithoutPort_UsesDefaultPort()
+    {
+        var result = PostgresConnectionStringParser.ToNpgsqlFormat(
+            "postgresql://taskflow_user:PASS@dpg-xxxx-a/taskflow_db");
+
+        var parsed = new NpgsqlConnectionStringBuilder(result);
+        parsed.Host.Should().Be("dpg-xxxx-a");
+        parsed.Port.Should().Be(5432);
+        parsed.Database.Should().Be("taskflow_db");
+        parsed.Username.Should().Be("taskflow_user");
+        parsed.Password.Should().Be("PASS");
+    }
+
+    [Fact]
     public void ToNpgsqlFormat_WhenPostgresUriWithEncodedPassword_Decodes()
     {
         var result = PostgresConnectionStringParser.ToNpgsqlFormat(
