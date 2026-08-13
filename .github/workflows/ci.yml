@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: taskflow_tests
+          POSTGRES_USER: taskflow
+          POSTGRES_PASSWORD: taskflow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - run: dotnet restore
+
+      - run: dotnet build --no-restore --configuration Release
+
+      - name: Test (unit + integration)
+        env:
+          POSTGRES_CONNECTION_STRING: "Host=localhost;Port=5432;Database=taskflow_tests;Username=taskflow;Password=taskflow"
+        run: dotnet test --no-build --configuration Release
+
+      - run: dotnet format --verify-no-changes --no-restore
