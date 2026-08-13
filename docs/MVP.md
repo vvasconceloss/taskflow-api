@@ -781,14 +781,12 @@ ENTRYPOINT ["dotnet", "TaskFlow.Api.dll"]
 ### Tasks
 - [x] Create a multi-stage `Dockerfile`
 - [x] Validate the image locally (`docker build` + `docker run`)
-- [ ] Choose a deployment platform (Render or Railway, free tier)
-- [ ] Choose a managed Postgres (Neon, Supabase, or the platform's own Postgres)
-- [ ] Configure production environment variables
-- [ ] Run migrations in production
-- [ ] Configure production CORS with the correct origin (if there is an external client/Swagger)
-- [ ] Deploy
-- [ ] Test the full flow in production via Swagger/Postman: register → login → workspace → project → task
-- [ ] Document the public URL in the README
+- [x] Choose a deployment platform (Render or Railway, free tier)
+- [x] Configure production environment variables
+- [x] Run migrations in production
+- [x] Deploy
+- [x] Test the full flow in production via Swagger/Postman: register → login → workspace → project → task
+- [x] Document the public URL in the README
 
 ### Completion criteria
 The API is publicly accessible via HTTPS, with the full flow validated in production.
