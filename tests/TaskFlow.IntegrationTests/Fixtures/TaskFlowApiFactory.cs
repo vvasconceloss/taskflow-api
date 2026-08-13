@@ -21,9 +21,10 @@ public class TaskFlowApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         builder.UseEnvironment("Testing");
         builder.ConfigureAppConfiguration((_, config) =>
         {
+            var externalConnection = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING");
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["ConnectionStrings:DefaultConnection"] = _postgres.GetConnectionString(),
+                ["ConnectionStrings:DefaultConnection"] = externalConnection ?? _postgres.GetConnectionString(),
                 ["Jwt:Secret"] = "test-secret-0123456789abcdef0123456789abcdef",
                 ["Jwt:Issuer"] = "TaskFlow.Api",
                 ["Jwt:Audience"] = "TaskFlow.Client",
@@ -35,7 +36,10 @@ public class TaskFlowApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await _postgres.StartAsync();
+        if (Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING") is null)
+        {
+            await _postgres.StartAsync();
+        }
 
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
