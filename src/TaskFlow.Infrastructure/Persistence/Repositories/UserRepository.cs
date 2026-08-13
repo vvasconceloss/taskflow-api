@@ -7,6 +7,9 @@ namespace TaskFlow.Infrastructure.Persistence.Repositories
 {
     public class UserRepository(ApplicationDbContext dbContext) : IUserRepository
     {
+        public Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
+            dbContext.Users.FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+
         public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken) =>
             dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
