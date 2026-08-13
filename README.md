@@ -31,7 +31,7 @@ automated testing and CI/CD — not just CRUD.
 
 ## Planned Features
 
-- [ ] **Authentication** — JWT-based register/login
+- [x] **Authentication** — JWT-based register/login
 - [ ] **Workspaces & Members** — role-based access (Admin/Member)
 - [ ] **Projects** — organized per workspace, with archiving
 - [ ] **Tasks** — status, priority, assignee, due date
