@@ -1,5 +1,6 @@
 using TaskFlow.Infrastructure.Services;
 using TaskFlow.Infrastructure.Persistence;
+using TaskFlow.Infrastructure.Persistence.Repositories;
 using TaskFlow.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,8 @@ namespace TaskFlow.Infrastructure
 
             services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
             services.AddSingleton<ITokenService, JwtTokenService>();
 
             return services;
