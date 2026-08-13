@@ -1,7 +1,8 @@
-using TaskFlow.Application.Common.Options;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using TaskFlow.Application.Common.Options;
 
 namespace TaskFlow.Api.Extensions
 {
@@ -9,19 +10,21 @@ namespace TaskFlow.Api.Extensions
     {
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtOptions = configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
-                ?? throw new InvalidOperationException($"Configuration section '{JwtOptions.SectionName}' is missing.");
-
-            if (string.IsNullOrWhiteSpace(jwtOptions.Secret))
-                throw new InvalidOperationException($"Configuration section '{JwtOptions.SectionName}:Secret' is missing.");
-
-            services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
+            services.AddOptions<JwtOptions>()
+                .Bind(configuration.GetSection(JwtOptions.SectionName))
+                .Validate(options => !string.IsNullOrWhiteSpace(options.Secret), $"'{JwtOptions.SectionName}:Secret' is required.")
+                .ValidateOnStart();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddJwtBearer();
+
+            services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+                .Configure<IOptions<JwtOptions>>((bearerOptions, jwtOptionsAccessor) =>
                 {
-                    options.MapInboundClaims = false;
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    var jwtOptions = jwtOptionsAccessor.Value;
+
+                    bearerOptions.MapInboundClaims = false;
+                    bearerOptions.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidIssuer = jwtOptions.Issuer,
