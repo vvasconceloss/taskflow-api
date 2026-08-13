@@ -675,13 +675,13 @@ Prepare the API to handle real data and real users before deployment.
 - Secrets (connection string, JWT secret) never committed — via environment variables / `dotnet user-secrets` in dev.
 
 ### Tasks
-- [ ] Configure rate limiting on `/auth/login` (`Microsoft.AspNetCore.RateLimiting`)
-- [ ] Configure production CORS (specific origin, no wildcard)
-- [ ] Audit all response DTOs to ensure `PasswordHash` is never serialized
-- [ ] Audit **all** EF Core queries confirming filtering by membership (Workspaces, Projects, Tasks)
-- [ ] Confirm secrets are outside version control (`.gitignore`, `user-secrets`, environment variables)
-- [ ] Write specific user isolation tests (if not already covered)
-- [ ] Review error messages to avoid leaking internal detail (stack trace, table name, etc.)
+- [x] Configure rate limiting on `/auth/login` (`Microsoft.AspNetCore.RateLimiting`)
+- [x] Configure production CORS (specific origin, no wildcard)
+- [x] Audit all response DTOs to ensure `PasswordHash` is never serialized
+- [x] Audit **all** EF Core queries confirming filtering by membership (Workspaces, Projects, Tasks)
+- [x] Confirm secrets are outside version control (`.gitignore`, `user-secrets`, environment variables)
+- [x] Write specific user isolation tests (if not already covered)
+- [x] Review error messages to avoid leaking internal detail (stack trace, table name, etc.)
 
 ### Completion criteria
 Security audit completed, with automated tests confirming isolation between users/workspaces and no sensitive data exposure.
@@ -912,7 +912,7 @@ M7  — Validation and Errors             [x]
 M8  — Logging                           [x]
 M9  — Testing                           [x]
 M10 — API Documentation                 [x]
-M11 — Security and Robustness           [ ]
+M11 — Security and Robustness           [x]
 M12 — CI                                [ ]
 M13 — Deployment                        [ ]
 M14 — README and Presentation           [ ]
