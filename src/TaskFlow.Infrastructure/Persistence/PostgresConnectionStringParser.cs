@@ -16,9 +16,13 @@ namespace TaskFlow.Infrastructure.Persistence
             var builder = new NpgsqlConnectionStringBuilder
             {
                 Host = uri.Host,
-                Port = uri.Port,
                 Database = uri.AbsolutePath.TrimStart('/')
             };
+
+            if (uri.Port != -1)
+            {
+                builder.Port = uri.Port;
+            }
 
             if (uri.UserInfo.Length > 0)
             {
