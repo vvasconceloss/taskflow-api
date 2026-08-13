@@ -37,4 +37,5 @@ app.UseAuthorization();
 app.MapHealthChecks("/health");
 app.MapAuthEndpoints();
 app.MapWorkspaceEndpoints();
+app.MapProjectEndpoints();
 app.Run();
