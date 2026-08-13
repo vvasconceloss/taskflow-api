@@ -327,10 +327,10 @@ TaskFlow.Application/Features/Auth/
 - [x] Implement `GetMeQuery` + handler
 - [x] Map Minimal API endpoints: `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
 - [x] Configure authentication/authorization middleware in `Program.cs`
-- [ ] Write tests:
+- [x] Write tests:
   - [x] Register a user successfully
   - [x] Reject a duplicate email
-  - [ ] Reject a weak password (minimum validation rule)
+  - [x] Reject a weak password (minimum validation rule)
   - [x] Log in successfully
   - [x] Reject invalid credentials
   - [x] Access `/auth/me` while authenticated
@@ -554,13 +554,13 @@ Map known exceptions to the correct status codes:
 | Anything else | 500 (full log, generic response to the client) |
 
 ### Tasks
-- [ ] Create `ValidationBehavior` and register it in the MediatR pipeline
-- [ ] Write a `Validator` (FluentValidation) for **every** existing Command so far
-- [ ] Create domain exceptions: `NotFoundException`, `ForbiddenException`, `ConflictException`
-- [ ] Implement global exception handling middleware (`IExceptionHandler` from ASP.NET Core)
-- [ ] Standardize the error response format across the entire API
-- [ ] Tests: each validator rejects invalid input as expected
-- [ ] Test: an unhandled exception returns 500 without leaking a stack trace to the client
+- [x] Create `ValidationBehavior` and register it in the MediatR pipeline
+- [x] Write a `Validator` (FluentValidation) for **every** existing Command so far
+- [x] Create domain exceptions: `NotFoundException`, `ForbiddenException`, `ConflictException`
+- [x] Implement global exception handling middleware (`IExceptionHandler` from ASP.NET Core)
+- [x] Standardize the error response format across the entire API
+- [x] Tests: each validator rejects invalid input as expected
+- [x] Test: an unhandled exception returns 500 without leaking a stack trace to the client
 
 ### Completion criteria
 Every command has validation, and every known exception is mapped to a consistent HTTP status and error format.

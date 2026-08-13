@@ -35,8 +35,8 @@ automated testing and CI/CD — not just CRUD.
 - [x] **Workspaces & Members** — role-based access (Admin/Member)
 - [x] **Projects** — organized per workspace, with archiving
 - [x] **Tasks** — status, priority, assignee, due date
-- [ ] **Advanced listing** — filtering, pagination, sorting on all collections
-- [ ] **Consistent validation & error handling**
+- [x] **Advanced listing** — filtering, pagination, sorting on all collections
+- [x] **Consistent validation & error handling**
 - [ ] **Automated tests** — unit + integration (Testcontainers)
 - [ ] **CI pipeline** — build, test and lint on every PR
 - [ ] **Dockerized & deployed** — publicly accessible API
