@@ -46,7 +46,8 @@ public class WorkspacesEndpointsTests : IClassFixture<TaskFlowApiFactory>
 
         var list = await client.GetAsync("/workspaces");
         list.StatusCode.Should().Be(HttpStatusCode.OK);
-        var items = await list.Content.ReadFromJsonAsync<List<JsonElement>>();
+        var paged = await list.Content.ReadFromJsonAsync<JsonElement>();
+        var items = paged.GetProperty("items").EnumerateArray().ToList();
         items.Should().Contain(item => item.GetProperty("id").GetGuid() == workspaceId);
     }
 
@@ -62,7 +63,8 @@ public class WorkspacesEndpointsTests : IClassFixture<TaskFlowApiFactory>
         detail.StatusCode.Should().Be(HttpStatusCode.Forbidden);
 
         var list = await intruder.GetAsync("/workspaces");
-        var items = await list.Content.ReadFromJsonAsync<List<JsonElement>>();
+        var paged = await list.Content.ReadFromJsonAsync<JsonElement>();
+        var items = paged.GetProperty("items").EnumerateArray().ToList();
         items.Should().NotContain(item => item.GetProperty("id").GetGuid() == workspaceId);
     }
 

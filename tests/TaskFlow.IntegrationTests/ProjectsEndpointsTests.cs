@@ -56,7 +56,8 @@ public class ProjectsEndpointsTests : IClassFixture<TaskFlowApiFactory>
         var projectId = await CreateProjectAsync(client, workspaceId, "Backend");
 
         var list = await client.GetAsync($"/workspaces/{workspaceId}/projects");
-        var items = await list.Content.ReadFromJsonAsync<List<JsonElement>>();
+        var paged = await list.Content.ReadFromJsonAsync<JsonElement>();
+        var items = paged.GetProperty("items").EnumerateArray().ToList();
         items.Should().Contain(item => item.GetProperty("id").GetGuid() == projectId);
     }
 
@@ -71,7 +72,8 @@ public class ProjectsEndpointsTests : IClassFixture<TaskFlowApiFactory>
         archive.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var list = await client.GetAsync($"/workspaces/{workspaceId}/projects");
-        var items = await list.Content.ReadFromJsonAsync<List<JsonElement>>();
+        var paged = await list.Content.ReadFromJsonAsync<JsonElement>();
+        var items = paged.GetProperty("items").EnumerateArray().ToList();
         items.Should().NotContain(item => item.GetProperty("id").GetGuid() == projectId);
 
         var detail = await client.GetAsync($"/projects/{projectId}");

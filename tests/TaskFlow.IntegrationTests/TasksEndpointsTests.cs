@@ -62,7 +62,8 @@ public class TasksEndpointsTests : IClassFixture<TaskFlowApiFactory>
         var taskId = await CreateTaskAsync(client, projectId, "Setup CI");
 
         var list = await client.GetAsync($"/projects/{projectId}/tasks");
-        var items = await list.Content.ReadFromJsonAsync<List<JsonElement>>();
+        var paged = await list.Content.ReadFromJsonAsync<JsonElement>();
+        var items = paged.GetProperty("items").EnumerateArray().ToList();
         items.Should().Contain(item => item.GetProperty("id").GetGuid() == taskId);
     }
 
